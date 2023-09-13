@@ -10,8 +10,15 @@ API_KEY = os.getenv('chatnbx_api_key')
 app = Flask(__name__,static_folder='./dist',static_url_path='/')
 CORS(app)
 
-@app.route('/api', methods=['POST'])
-def predict():
+@app.route('/api', methods=['POST','GET'])
+def api(request):
+    if request.method == 'POST':
+        return predict(request)
+    else:
+        return hello()
+
+
+def predict(request):
     data = request.get_json()
     prompt = data['prompt']
     from langchain.llms import OpenAI
@@ -25,8 +32,11 @@ def predict():
     return jsonify({"answer": out})
     
 @app.route('/', methods=['GET'])
+def index():
+    return hello()
+
 def hello():
     return jsonify({"answer":"This is a Law Based Chatbot"})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", threaded=True, port=5000)
+    app.run(host="0.0.0.0", threaded=True, port=10000)
