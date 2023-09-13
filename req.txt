@@ -6,4 +6,4 @@ scikit-learn
 openai
 langchain
 flask-cors
-pydantic
+pydantic==1.10.9
