@@ -11,7 +11,7 @@ app = Flask(__name__,static_url_path='/')
 CORS(app)
 
 @app.route('/', methods=['POST','GET'])
-def api(request):
+def api():
     if request.method == 'POST':
         return predict(request)
     else:
