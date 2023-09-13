@@ -2,6 +2,8 @@ from flask import Flask,jsonify,request
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
+from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 
 load_dotenv()
 API_KEY = os.getenv('chatnbx_api_key')
@@ -21,8 +23,7 @@ def api():
 def predict(request):
     data = request.get_json()
     prompt = data['prompt']
-    from langchain.llms import OpenAI
-    from langchain.chat_models import ChatOpenAI
+
     chat_model = ChatOpenAI(
         openai_api_key=API_KEY,
         openai_api_base="https://chat.nbox.ai/api/",
