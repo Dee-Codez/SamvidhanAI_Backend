@@ -10,7 +10,7 @@ API_KEY = os.getenv('chatnbx_api_key')
 app = Flask(__name__,static_url_path='/')
 CORS(app)
 
-@app.route('/api', methods=['POST','GET'])
+@app.route('/', methods=['POST','GET'])
 def api(request):
     if request.method == 'POST':
         return predict(request)
@@ -31,10 +31,6 @@ def predict(request):
     out = chat_model.predict(prompt)
     return jsonify({"answer": out})
     
-@app.route('/', methods=['GET'])
-def index():
-    return hello()
-
 def hello():
     return jsonify({"answer":"This is a Law Based Chatbot"})
 
