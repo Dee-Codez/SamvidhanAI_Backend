@@ -4,6 +4,6 @@ waitress
 python-dotenv
 scikit-learn
 openai
-langchain
+-U langchain
 flask-cors
 pydantic==1.10.9
