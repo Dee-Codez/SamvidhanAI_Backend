@@ -14,15 +14,34 @@ CORS(app)
 def predict():
     data = request.get_json()
     prompt = data['prompt']
-    from langchain.llms import OpenAI
+    from langchain.schema import HumanMessage, SystemMessage
     from langchain.chat_models import ChatOpenAI
     chat_model = ChatOpenAI(
         openai_api_key=API_KEY,
-        openai_api_base="https://chat.nbox.ai/api/",
-        model_name="llama2-chat-13b-4k"
+        openai_api_base="https://chat.tune.app/api/",
+        model_name="mixtral-8x7b-inst-v0-1-32k",
     )
-    out = chat_model.predict(prompt)
-    return jsonify({"answer": out})
+    messages=[
+            SystemMessage(
+                content="You are SamvidhanAI, An AI Assistant referring to the Indian Constitution."
+            ),
+            HumanMessage(
+                content=prompt,
+            ),
+    ]
+
+    out = chat_model(messages)
+    return jsonify({"answer": out.content})
+
+    # from chainfury.components.tune import ChatNBX, chatnbx
+    # out = chatnbx(
+    # chatnbx_api_key=API_KEY,
+    # model = "mixtral-8x7b-inst-v0-1-32k",
+    # messages = [
+    #     ChatNBX.Message(role = "system", content = "You are SamvidhanAI, An AI Assistant referring to the Indian Constitution."),
+    #     ChatNBX.Message(role = "user", content = prompt),
+    # ])
+    # return jsonify({"answer": out})
     
 @app.route('/', methods=['GET'])
 def hello():
